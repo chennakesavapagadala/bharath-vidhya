@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- First create cdlines.html SEPARATE file. -->
+    {% include 'cdlines.html' %} <!--Then include Like This -->
+  </head>
+  <!-- From Here Write Styles -->
+    <style media="screen">
+    .btn{
+      width: 100%;
+      font-size: 23px;
+      line-height: 25px;
+    }
+    form{
+      margin-top: 200px;
+      box-shadow: 0px 0px 6px 1px black;
+    }
+    a{
+      font-size: 17px;
+    }
+
+    </style>
+  <body>
+
+    <div class="container-fluid"><!--StartMainContainer -->
+        
+      <div class="row ml-5"><!--StartMainRow -->
+        <div class="offset-1 col-ms-4"><!--StartMainColumn -->
+          <!--From Start -->
+          <div>
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert  text-danger display-6">{{message}}</div>
+              {% endfor%}
+            {% endif %}
+          </div>
+          <form method="post" class="border p-2">
+            {% csrf_token %}
+            <h5 class="text-secondary"> Signin Here.. </h5>
+            <input type="text" name="email" value="" class="form-control mt-3" placeholder="Enter User Name">
+
+            <input type="password" name="pwd" value="" class="form-control mt-3" placeholder="Enter Password">
+
+            <input type="submit" class="btn btn-success mt-3 mr-3" value="Signin">
+
+            <input type="checkbox" class="ml-2" ><label for="checkbox" class="ml-2 mt-2">Remember me</label><br>
+
+            <a href="#" class="text-primary mr-5  ">Forget Password?</a>
+
+            <a href="{% url 'signup' %}" class="text-danger ml-1 ">Create New Account</a>
+
+          </form>
+          <!--From End -->
+        </div><!--EndMainColumn -->
+      </div><!--EndMainROW -->
+    </div><!--EndMainContainer -->
+
+  </body>
+</html>

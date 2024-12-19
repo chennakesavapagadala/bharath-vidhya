@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- First create cdlines.html(Bootstrap Lines) SEPARATE file.
+    Then include in these .html page -->
+    {% include 'cdlines.html' %}
+  </head>
+  <!-- From Here Write Styles -->
+    <style media="screen">
+    .btn{
+      width: 100%;
+      font-size: 23px;
+      line-height: 25px;
+    }
+    form{
+      margin-top: 100px;
+      box-shadow: 0px 0px 6px 0px black;
+    }
+    p a{
+      font-size: 18px;
+    }
+    .gm,.ms,.fb,.ln{
+      height:10px;
+      width:10px;
+    }
+
+    </style>
+  <body>
+
+    <div class="container-fluid"><!--StartMainContainer -->
+
+      <div class="row ml-5"><!--StartMainRow -->
+        <div class="offset-1 col-ms-3 "><!--StartMainColumn -->
+          <!--From Start -->
+          <form method="post" class="border p-2">
+            {% csrf_token %}
+            <br>
+            <h5 class="text-secondary"> Signup Here.. </h5>
+            {% for message in messages %}
+              <p class="text-danger display-6">{{message}}</p>
+            {% endfor%}
+            <input type="text" name="uname" value="" class="form-control mt-2" placeholder="Create Your User Name" required >
+
+            <input type="email" name="email" value="" class="form-control mt-4" placeholder="Enter Email Id" required >
+
+            <input type="password" name="pwd1" value="" class="form-control mt-4" placeholder="Enter Password" required >
+
+            <input type="password" name="pwd2" value="" class="form-control mt-4" placeholder="Confirm Password" required >
+
+            <input type="submit" class="btn btn-success mt-4 mr-3" value="Signup">
+
+            <div class="pr-3 pl-3 pt-3">______________________ OR _____________________</div>
+
+            <hr>
+              <div class="links">
+                <a href="#"> <img  alt="gmail"      class="img-thumbnail gm" src="" > </a>
+                <a href="#"> <img  alt="microsoft"  class="img-thumbnail ms" src="" > </a>
+                <a href="#"> <img  alt="facebook"   class="img-thumbnail fb" src="" > </a>
+                <a href="#"> <img  alt="linkedin"   class="img-thumbnail ln" src="" > </a>
+              </div>
+            <hr>
+
+            <p class="text-center mt-3"><i>Already have an account?<a href="{% url 'signin' %}" class="text-danger"> Login</a></i></p>
+          </form>
+          <!--From End -->
+        </div><!--EndMainColumn -->
+      </div><!--EndMainROW -->
+    </div><!--EndMainContainer -->
+
+  </body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Bharath Vidhya/all colleges</title>
+    {% include 'cdlines.html' %}
+    <script>
+        // Passing Django context variable to JavaScript
+        const all_colleges = {{ all_colleges|safe }};
+    </script>
+  </head>
+  <style media="screen">
+  body{
+    overflow-y: scroll;
+    /* scrollbar-width: thin; */
+    background-color:#effaf6;
+  }
+  body::-webkit-scrollbar{
+    display: none;
+  }
+  nav{
+    background-color: #00a7a2;
+  }
+  .nav-item{
+    color:black;
+    font-style: oblique;
+  }
+  .nav-item:hover{
+    color:aqua;
+    text-decoration:overline;
+  }
+  .title_info{
+    background-color: #effaf6;
+  }
+  .search{
+    border-radius:30px;
+  }
+  .data_block{
+    height: 621px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    background-color: #6c9d87;
+  }
+  .college_block{
+    background-color: #effaf6 ;
+    margin-bottom: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
+    border: 1px  solid aqua;
+    border-radius: 6px;
+    box-shadow:0px 0px 6px 0px black ;
+  }
+  .college_block:hover{box-shadow:0px 0px 4px 1px white ;}
+  .clg_name{color:#00a7a2;}
+  .location{color:#6c9d87;}
+  .clg_name:hover{color:#6c9d87 ;}
+
+  </style>
+
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-light d-flex justify-content-around ">
+      <div class="d-flex ">
+        <img src="{% static 'bvlogo.jpeg' %}" alt="logo"height="30" width="30"style="border-radius:50%;">
+        <a class="navbar-brand " href="#">Bharath Vidhya</a>
+      </div>
+      <div class="d-flex ">
+        <a class="nav-item nav-link " href="{% url 'home' %}">Home </a>
+        <a class="nav-item nav-link text-light" href="{% url 'colleges' %}">All Colleges</a>
+        <a class="nav-item nav-link" href="{% url 'private' %}">private</a>
+        <a class="nav-item nav-link" href="{% url 'govt' %}">Government</a>
+        <a class="nav-item nav-link" href="{% url 'top_clgs' %}">Top Colleges</a>
+      </div>
+      <div class="btn-group">
+        <img src="{% static 'cslogoedit.jpg' %}" alt="profile" class="profile" height="30" width="30" data-toggle="dropdown" style="border-radius:50%;">
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#">Account</a>
+          <a class="dropdown-item text-danger" href="{% url 'home' %}">LogOut</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-primary" href="{% url 'signup' %}">Rigester New</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="title_info container text-center mt-1" >
+      <h3>Best Engineering Colleges In India {%now 'Y'%}</h3> <hr>
+      There are <b>{{all_colleges|length}}</b> Engineering Colleges in India. <br>
+      <b><i id="count" class="align-self-end ml-1 text-primary"></i></b>
+    </div>
+    <div class="search_bar d-flex justify-content-center align-items-center">
+      <input type="text" id="search" class="search col-md-5 form-control" placeholder="search by College, Branch, State or City" autocomplete="off" onkeyup="liveSearch()" />
+
+    </div>
+
+    <div id="data_block"class="data_block container-fluid  d-flex flex-rows flex-wrap  justify-content-center mt-2" >
+      {% for college in all_colleges %}
+      <div id="college_block" class="college_block d-flex mt-1" >
+        <div class=" d-flex flex-column" >
+          <img src="{% static 'bvlogo.jpeg' %}" alt="college logo " class="border rounded-circle" height="60px" width="60px">
+        </div>
+        <div class="college_info d-flex flex-column p-3">
+          <a href="{{college.links}}" target="_blank" class="text-decoration-none" > <h5 id="clg_name" class="clg_name">{{college.name}} </h5></a>
+          <h6 class="align-self-start">
+              <i class="fa fa-map-marker" aria-hidden="true"></i> {{college.location}}
+            | Rating : <span class="rating text-secondary">{{college.rating}}</span> | Fees : <span class="fees text-secondary">{{college.fees}}</span>
+          </h6>
+          ---------------------------------------------------
+          <h6 class="branch align-self-start text-dark">{{college.branch}} | {{college.type}} college</h6>
+          <span class="exams align-self-start"> <strong>Exams : </strong> {{college.exams}}</span>
+          <span class="ranking text-dark"> {{college.ranking}} </span>
+          <span class="idno text-dark align-self-end"><a href="{{college.gallery}}" class="text-center bg-secondary text-warning">Photo Gallery</a> | {{ forloop.counter }} |</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <footer class=" text-center" style="background-color:lightgray;">
+      @ Pagadala Chennakesava. All Right Reserved {% now 'Y' %}
+    </footer>
+
+    <script>
+      function divContent(){
+        const query = document.getElementById('search').value.toLowerCase();
+        const clglist = document.getElementById('data_block');
+        const countElement = document.getElementById('count');
+        clglist.innerHTML = ''; // Clear previous results
+        let matchCount = 0; // Initialize counter
+
+        all_colleges.forEach((college,index) => {
+          if (college.name.toLowerCase().includes(query) ||
+            college.location.toLowerCase().includes(query) ||
+            college.branch.toLowerCase().includes(query)
+            ){
+            matchCount++; // Increment counter for each match
+            // Create a new div for each matching college
+            let div = document.createElement('div');
+            div.classList.add('college_block', 'd-flex', 'mt-1');
+            // Add the college
+            div.innerHTML =
+            `
+              <div class=" d-flex flex-column" >
+                <img src="{% static 'bvlogo.jpeg' %}" alt="college logo " class="border rounded-circle" height="60px" width="60px">
+                <a href=${college.gallery} class="text-center">Gallery</a>
+              </div>
+              <div class="college_info d-flex flex-column p-3">
+                <a href=${college.links} target="_blank" class="text-decoration-none" > <h5 id="clg_name" class="clg_name">${college.name} </h5></a>
+                <h6 class="align-self-start">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i> ${college.location}
+                  | Rating : <span class="rating text-secondary">${college.rating}</span> | Fees : <span class="fees text-secondary">${college.fees}</span>
+                </h6>
+                ---------------------------------------------------
+                <h6 class="branch align-self-start text-dark">${college.branch} | ${college.type} college</h6>
+                <span class="exams align-self-start"> <strong>Exams : </strong> ${college.exams}</span>
+                <span class="ranking text-dark"> ${college.ranking} </span>
+                <span class="idno text-dark align-self-end"><a href=${college.gallery} class="text-center bg-secondary text-warning">Photo Gallery</a> | ${index + 1} |</span>
+              </div>
+            `;
+            clglist.appendChild(div); // Append to the results container
+          }
+
+        });
+        // Show 'no results found' if no colleges match
+        if (matchCount == all_colleges.length) {
+          countElement.textContent = '';
+        }else if (matchCount > 0){
+          countElement.textContent = `${matchCount} colleges found`;
+        }else {
+          countElement.textContent = ``;
+          clglist.innerHTML = `<h4 class="text-danger">No Colleges Found</h4>`
+        }
+      }
+      function liveSearch() {
+        return divContent()
+      }
+
+    </script>
+
+
+  </body>
+</html>
