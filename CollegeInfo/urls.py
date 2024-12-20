@@ -27,11 +27,14 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('signout/', views.signout, name='signout'),
 
+    path('newuser/', views.newuser, name = 'newuser'),
+
     path('colleges/all/', views.colleges, name='colleges'),
     path('colleges/private/', views.private, name='private'),
     path('colleges/govt/', views.govt, name='govt'),
 
     path('colleges/top/colleges', views.top_clgs, name='top_clgs'),
+
 
 
 
