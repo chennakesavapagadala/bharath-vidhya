@@ -26,6 +26,13 @@
     color:aqua;
     text-decoration:overline;
   }
+  .profile{
+    background-color:lightgray;
+    color:black;
+    border-radius:50%;
+    height:25px; width:25px;
+    cursor:pointer;;
+  }
   .title_info{
     background-color: #effaf6;
   }
@@ -60,7 +67,22 @@
         <a class="nav-item nav-link" href="{% url 'top_clgs' %}">Top Colleges</a>
       </div>
       <div class="btn-group">
-        <a class="btn btn-sm btn-primary" href="https://bharathvidhya.onrender.com/admin">&nbsp; Admin &nbsp;</a>
+        {% if user.is_authenticated %}
+          <h6 class="text-center profile" title="{{user.username}}" data-toggle="dropdown">
+            <b>{{user.username|slice:':1'}}</b>
+          </h6>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="#">Account</a>
+            <a class="dropdown-item text-danger" href= "{% url 'signout' %}">LogOut</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-primary" href="{% url 'newuser' %}">Rigester New</a>
+          </div>
+        {% else %}
+        <a class="profile text-center" href="http://127.0.0.1:8000/admin">
+          <b title="Admin Login Only">A</b>
+        </a>
+        {% endif %}
+
       </div>
     </nav>
 

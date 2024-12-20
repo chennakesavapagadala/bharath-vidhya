@@ -72,13 +72,17 @@
         <a class="nav-item nav-link" href="{% url 'top_clgs' %}">Top Colleges</a>
       </div>
       <div class="btn-group">
-        <img src="{% static 'cslogoedit.jpg' %}" alt="profile" class="profile" height="30" width="30" data-toggle="dropdown" style="border-radius:50%;">
-        <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="#">Account</a>
-          <a class="dropdown-item text-danger" href="{% url 'home' %}">LogOut</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item text-primary" href="{% url 'signup' %}">Rigester New</a>
-        </div>
+        {% if user.is_authenticated %}
+          <h6 class="text-center" style="background-color:lightgray;color:black;border-radius:50%;height:20px; width:20px;cursor:pointer;;" data-toggle="dropdown">
+            {{user.username|slice:':1'}}
+          </h6>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="#">Account</a>
+            <a class="dropdown-item text-danger" href= "{% url 'signout' %}">LogOut</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-primary" href="{% url 'newuser' %}">Rigester New</a>
+          </div>
+        {% endif %}
       </div>
     </nav>
 

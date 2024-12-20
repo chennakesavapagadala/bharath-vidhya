@@ -8,9 +8,12 @@
   </head>
   <!-- From Here Write Styles -->
     <style media="screen">
+    body{
+      background-color: #effaf9;
+    }
     .btn{
       width: 100%;
-      font-size: 23px;
+      font-size: 20px;
       line-height: 25px;
     }
     form{
@@ -24,10 +27,10 @@
     </style>
   <body>
 
-    <div class="container-fluid"><!--StartMainContainer -->
-        
+    <div class="container"><!--StartMainContainer -->
+
       <div class="row ml-5"><!--StartMainRow -->
-        <div class="offset-1 col-ms-4"><!--StartMainColumn -->
+        <div class="offset-1 col-md-5"><!--StartMainColumn -->
           <!--From Start -->
           <div>
             {% if messages %}
@@ -36,26 +39,36 @@
               {% endfor%}
             {% endif %}
           </div>
-          <form method="post" class="border p-2">
+          <form method="post" class="border p-2 text-center">
             {% csrf_token %}
             <h5 class="text-secondary"> Signin Here.. </h5>
-            <input type="text" name="email" value="" class="form-control mt-3" placeholder="Enter User Name">
+            <input type="email" name="email" value="" class="form-control mt-3" placeholder="Enter Email I'd">
 
-            <input type="password" name="pwd" value="" class="form-control mt-3" placeholder="Enter Password">
+            <input type="password" name="pwd" id="pwd" value="" class="form-control mt-3" placeholder="Enter Password">
 
-            <input type="submit" class="btn btn-success mt-3 mr-3" value="Signin">
+            <input type="checkbox" id="checkbox" class="mt-2" onclick="togglePassword()"><label for="checkbox" class="ml-3 mt-1">Show Password</label>
 
-            <input type="checkbox" class="ml-2" ><label for="checkbox" class="ml-2 mt-2">Remember me</label><br>
+            <input type="submit" class="btn btn-sm btn-success mt-3 mr-3" value="Signin">
 
             <a href="#" class="text-primary mr-5  ">Forget Password?</a>
 
-            <a href="{% url 'signup' %}" class="text-danger ml-1 ">Create New Account</a>
+            <a href="{% url 'signup' %}" class="text-info ml-1 ">Create New Account</a> <br>
+
+            <a href="http://127.0.0.1:8000/admin" class="text-danger text-center  ">Admin Login Only</a>
 
           </form>
           <!--From End -->
         </div><!--EndMainColumn -->
       </div><!--EndMainROW -->
     </div><!--EndMainContainer -->
+
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("pwd");
+            var checkbox = document.getElementById("checkbox");
+            passwordField.type = checkbox.checked ? "text" : "password";
+        }
+    </script>
 
   </body>
 </html>

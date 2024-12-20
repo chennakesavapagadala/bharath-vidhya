@@ -9,9 +9,12 @@
   </head>
   <!-- From Here Write Styles -->
     <style media="screen">
+    body{
+      background-color: #effaf6;
+    }
     .btn{
       width: 100%;
-      font-size: 23px;
+      font-size: 20px;
       line-height: 25px;
     }
     form{
@@ -29,7 +32,7 @@
     </style>
   <body>
 
-    <div class="container-fluid"><!--StartMainContainer -->
+    <div class="container"><!--StartMainContainer -->
 
       <div class="row ml-5"><!--StartMainRow -->
         <div class="offset-1 col-ms-3 "><!--StartMainColumn -->
@@ -38,10 +41,8 @@
             {% csrf_token %}
             <br>
             <h5 class="text-secondary"> Signup Here.. </h5>
-            {% for message in messages %}
-              <p class="text-danger display-6">{{message}}</p>
-            {% endfor%}
-            <input type="text" name="uname" value="" class="form-control mt-2" placeholder="Create Your User Name" required >
+
+            <input type="text" name="uname" value="" class="form-control mt-2" placeholder="Create YourFull Name" required >
 
             <input type="email" name="email" value="" class="form-control mt-4" placeholder="Enter Email Id" required >
 
@@ -49,7 +50,7 @@
 
             <input type="password" name="pwd2" value="" class="form-control mt-4" placeholder="Confirm Password" required >
 
-            <input type="submit" class="btn btn-success mt-4 mr-3" value="Signup">
+            <input type="submit" class="btn btn-sm btn-success mt-4 mr-3" value="Signup">
 
             <div class="pr-3 pl-3 pt-3">______________________ OR _____________________</div>
 
@@ -66,6 +67,9 @@
           </form>
           <!--From End -->
         </div><!--EndMainColumn -->
+        {% for message in messages %}
+          <p class="text-danger display-6">{{message}}</p>
+        {% endfor%}
       </div><!--EndMainROW -->
     </div><!--EndMainContainer -->
 
