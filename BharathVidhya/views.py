@@ -36,6 +36,13 @@ def signin(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['pwd']
+
+        try:
+            username = User.objects.get(email=email).username
+        except User.DoesNotExist:
+            messages.error(request, 'Invalid email or password.')
+            return redirect('signin')
+            
         username = User.objects.get(email=email).username
         user = authenticate(request, username=username, password=password)
         if user is not None:
