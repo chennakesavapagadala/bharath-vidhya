@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 import random
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -33,21 +34,28 @@ def signup(request):
 
 def signin(request):
     if request.method == 'POST':
-        username = request.POST['email']
+        email = request.POST['email']
         password = request.POST['pwd']
-        user = auth.authenticate(request, username=username, password=password)
+        username = User.objects.get(email=email).username
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
             return redirect('home')
         else:
-            messages.info(request, 'Invalid Password Or UserName')
+            messages.error(request, 'Invalid Password Or UserName')
     return render(request, 'signin.html')
 
+@never_cache
 @login_required(login_url='signin')
 def signout(request):
     auth.logout(request)
-    return redirect('signin')
+    return redirect('home')
 
+@never_cache
+@login_required(login_url='signin')
+def newuser(request):
+    auth.logout(request)
+    return redirect('signup')
 
 def home(request):
 
@@ -59,6 +67,7 @@ def home(request):
     }
     return render(request, 'home.html',context)
 
+@never_cache
 @login_required(login_url='signin')
 def colleges(request):
 
@@ -69,6 +78,8 @@ def colleges(request):
         'government_colleges':government_colleges,
     }
     return render(request, 'colleges.html',context)
+
+@never_cache
 @login_required(login_url='signin')
 def private(request):
     context = {
@@ -79,6 +90,7 @@ def private(request):
     }
     return render(request, 'private.html',context)
 
+@never_cache
 @login_required(login_url='signin')
 def govt(request):
     context = {
@@ -88,7 +100,8 @@ def govt(request):
         'government_colleges':government_colleges,
     }
     return render(request, 'govt.html',context)
-    
+
+@never_cache
 @login_required(login_url='signin')
 def top_clgs(request):
     context = {
