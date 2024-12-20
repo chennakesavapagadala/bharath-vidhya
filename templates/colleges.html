@@ -73,8 +73,8 @@
       </div>
       <div class="btn-group">
         {% if user.is_authenticated %}
-          <h6 class="text-center" style="background-color:lightgray;color:black;border-radius:50%;height:20px; width:20px;cursor:pointer;;" data-toggle="dropdown">
-            {{user.username|slice:':1'}}
+          LogIn As &nbsp; <h6 class="text-center" title="{{user.username|upper}}" style="background-color:lightgray;color:black;border-radius:50%;height:20px; width:20px;cursor:pointer;;" data-toggle="dropdown">
+             {{user.username|capfirst|slice:':1'}}
           </h6>
           <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="#">Account</a>
